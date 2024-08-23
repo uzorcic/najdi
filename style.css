@@ -1,0 +1,184 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  font-family: 'Sans-serif';
+  position: relative;
+}
+
+#game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90vmin; /* Maintain a square shape based on the smaller viewport dimension */
+  height: 90vmin; /* Keep height equal to width to maintain aspect ratio */
+}
+
+#game-grid {
+  display: grid;
+  grid-template-columns: auto repeat(10, 1fr); /* First column for row labels */
+  grid-template-rows: auto repeat(10, 1fr); /* First row for column labels */
+  grid-gap: 6px; /* Equal padding between rows and columns */
+  width: 100%;
+  height: 100%;
+}
+
+.column-label,
+.row-label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.6vmin; /* Font size scales with viewport */
+  color: black;
+  font-family: 'Calibri', sans-serif;
+}
+
+.tile {
+  background-color: #00a69e;
+  border-radius: 13%; /* Rounded edges */
+  border: 2.6px solid #ffbb95; /* Adjusted border thickness */
+  cursor: pointer;
+  transform: rotateY(0deg);
+  transition: transform 0.3s ease-in-out, border-color 0.5s ease-in-out;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  aspect-ratio: 1; /* Ensure tiles remain square */
+}
+
+.flipped {
+  transform: rotateY(180deg);
+}
+
+.empty {
+  background-color: white;
+  cursor: default;
+}
+
+#message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border-radius: 20px;
+  border: 5px solid #00a690;
+  font-family: 'Calibri', sans-serif;
+  font-size: 65px; /* Adjusted font size */
+  text-align: center;
+  display: none;
+  padding: 52px;
+  color: #00a69e;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+}
+
+#close-popup {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 130px; /* Twice the size of the popup font */
+  color: #00a69e; /* Updated color */
+  cursor: pointer;
+}
+
+#message p {
+  margin: 0;
+  padding-bottom: 30px;
+}
+
+#restart-button {
+  padding: 13px 26px;
+  font-size: 26px;
+  border-radius: 13px;
+  background-color: #00a69e;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+#restart-button:hover {
+  background-color: #007d6b;
+}
+
+@keyframes flash {
+  0%, 100% { border-color: #ff0000; }
+  50% { border-color: #00a69e; }
+}
+
+#retry-counter {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  font-size: 5.2vmin; /* Twice the size of the coordinate font */
+  color: black;
+  padding: 10px;
+  font-family: 'Calibri', sans-serif; /* Use Calibri font for counter */
+}
+
+.confetti-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Confetti should not interfere with clicks */
+  overflow: hidden;
+}
+
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: #ff0000;
+  animation: confetti-fall 3s ease-out forwards;
+}
+
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(200px) translateX(calc(100px - 200px)) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.confetti:nth-child(odd) {
+  background-color: #00a69e;
+  animation-duration: 2.5s;
+}
+
+.confetti:nth-child(even) {
+  background-color: #ffbb95;
+  animation-duration: 3s;
+}
+
+.explosion-container {
+    pointer-events: none; /* Prevent interaction with the confetti */
+    width: 0;
+    height: 0;
+}
+
+.particle {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    opacity: 1;
+    animation: fly-out 2s ease-out forwards;
+}
+
+@keyframes fly-out {
+    from {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: translate(calc(100vw * (random(1) - 0.5)), calc(100vh * (random(1) - 0.5))) scale(0.5);
+    }
+}
